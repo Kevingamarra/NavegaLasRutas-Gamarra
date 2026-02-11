@@ -45,7 +45,7 @@ export default function InfoSection() {
  Medios de pago
  </h2>
  <img
- src="/img/medios-de-pago.png"
+ src={`${import.meta.env.BASE_URL}img/medios-de-pago.png`}
  alt="Medios de pago aceptados"
  className="img-fluid pay-logos animate-fadeUp"
  style={{ animationDelay: ".06s" }}
