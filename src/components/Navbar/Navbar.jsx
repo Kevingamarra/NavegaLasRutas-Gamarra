@@ -5,13 +5,18 @@ export default function Navbar({ cartCount = 0, query = "", onQueryChange }) {
     e.preventDefault();
     const q = e.currentTarget?.searchProducts?.value || "";
     onQueryChange && onQueryChange(q);
+
+    if (typeof document !== "undefined") {
+      const el = document.getElementById("perfumeria");
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   };
 
   return (
     <header className="navbar navbar-expand-lg navbar-light">
       <div className="container">
         <Link className="navbar-brand d-flex align-items-center" to="/" aria-label="Ir al inicio">
-          <img src={`assets/img/logo.png`} alt="Pura Belleza" height="40" className="me-2" />
+          <img src={`${import.meta.env.BASE_URL}assets/img/logo.png`} alt="Pura Belleza" height="40" className="me-2" />
           Pura Belleza
         </Link>
 
