@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+import CartWidget from "../CartWidget/CartWidget";
 export default function Navbar({ cartCount = 0, query = "", onQueryChange }) {
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -8,10 +10,10 @@ export default function Navbar({ cartCount = 0, query = "", onQueryChange }) {
   return (
     <header className="navbar navbar-expand-lg navbar-light">
       <div className="container">
-        <a className="navbar-brand d-flex align-items-center" href="#inicio" aria-label="Ir al inicio">
+        <Link className="navbar-brand d-flex align-items-center" to="/" aria-label="Ir al inicio">
           <img src="/assets/img/logo.png" alt="Pura Belleza" height="40" className="me-2" />
           Pura Belleza
-        </a>
+        </Link>
 
         <button
           className="navbar-toggler"
@@ -28,16 +30,16 @@ export default function Navbar({ cartCount = 0, query = "", onQueryChange }) {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto align-items-lg-center">
             <li className="nav-item">
-              <a className="nav-link" href="#perfumeria">Perfumería</a>
+              <Link className="nav-link" to="/category/perfumeria">Perfumería</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#cuidados">Cuidados</a>
+              <Link className="nav-link" to="/category/cuidados">Cuidados</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#maquillaje">Maquillaje</a>
+              <Link className="nav-link" to="/category/maquillaje">Maquillaje</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#regalos">Regalos</a>
+              <Link className="nav-link" to="/category/regalos">Regalos</Link>
             </li>
           </ul>
 
@@ -64,19 +66,9 @@ export default function Navbar({ cartCount = 0, query = "", onQueryChange }) {
           </form>
 
           {/* Carrito */}
-          <button
-            className="btn btn-brand ms-2 ms-lg-3 mt-3 mt-lg-0"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#carrito"
-            aria-controls="carrito"
-            aria-label="Abrir carrito"
-            type="button"
-          >
-            <i className="bi bi-cart" aria-hidden="true"></i>
-            <span id="cartBadge" className="badge bg-light text-dark rounded-pill ms-1">
-              {cartCount}
-            </span>
-          </button>
+          <CartWidget count={cartCount} />
+
+
         </div>
       </div>
     </header>

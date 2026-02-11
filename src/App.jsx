@@ -1,3 +1,8 @@
+import { Routes, Route } from "react-router-dom";
+import ItemListContainer from "./pages/ItemListContainer";
+import ItemDetailContainer from "./pages/ItemDetailContainer";
+import NotFound from "./pages/NotFound";
+
 import { useMemo, useState } from "react";
 
 import Welcome from "./components/Welcome/Welcome";
@@ -62,6 +67,16 @@ export default function App() {
       <Welcome />
 
       <Navbar cartCount={totalItems} query={q} onQueryChange={setQ} />
+
+      <Routes>
+        <Route path="/" element={<ItemListContainer greeting="Bienvenido a NavegaLasRutas" />} />
+        <Route path="/category/:categoryId" element={<ItemListContainer greeting="Bienvenido a NavegaLasRutas" />} />
+        <Route path="/item/:itemId" element={<ItemDetailContainer />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+
+
+
 
       <Hero />
       <HeroTitle />
