@@ -425,7 +425,7 @@ header.navbar .container{
 
 /* Fondo glam para el modal de bienvenida */
 .welcome-modal .modal-content {
-  background: url('../img/bg-bienvenida.jpg') center/cover no-repeat;
+  background: url("/assets/img/bg-bienvenida.jpg") center/cover no-repeat;
   color: #4a004e;
   backdrop-filter: blur(4px);
   border-radius: 18px;

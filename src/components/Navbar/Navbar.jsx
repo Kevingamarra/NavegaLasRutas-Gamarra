@@ -11,7 +11,7 @@ export default function Navbar({ cartCount = 0, query = "", onQueryChange }) {
     <header className="navbar navbar-expand-lg navbar-light">
       <div className="container">
         <Link className="navbar-brand d-flex align-items-center" to="/" aria-label="Ir al inicio">
-          <img src="/assets/img/logo.png" alt="Pura Belleza" height="40" className="me-2" />
+          <img src={`assets/img/logo.png`} alt="Pura Belleza" height="40" className="me-2" />
           Pura Belleza
         </Link>
 
