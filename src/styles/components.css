@@ -1,0 +1,545 @@
+/* components.css — overrides responsivos por componente */
+
+/* ---VARIABLES / BASE ---*/
+:root { --nav-h: 68px; }
+
+/* Helpers de interacciones táctiles */
+@media (hover: none) and (pointer: coarse) {
+  .navbar .nav-link:hover { text-decoration: none; text-shadow: none; }
+}
+
+/* Anclas (#seccion) no quedan tapadas por el nav */
+section, .section { scroll-margin-top: var(--nav-h); }
+
+/* ---NAVBAR: sticky + ROSA CLARO---*/
+
+/* Evitar que algún wrapper bloquee sticky */
+header, .site-header { overflow: visible !important; }
+
+/* Sticky sólido  */
+header.navbar,
+header.navbar.sticky-top,
+header.navbar.fixed-top,
+nav.navbar,
+nav.navbar.sticky-top,
+nav.navbar.fixed-top,
+.navbar.sticky-top,
+.navbar.fixed-top {
+  position: sticky !important;
+  top: 0;
+  z-index: 1000;
+}
+
+/* Fondo ROSA CLARO + borde sutil (pisa Bootstrap y theme) */
+header.navbar,
+header.navbar[class*="bg-"],
+nav.navbar,
+nav.navbar[class*="bg-"],
+.navbar {
+  --bs-navbar-bg: #fed0e3 !important;
+  background-color: #fed0e3 !important;
+  background: #fed0e3 !important;
+  border-bottom: 1px solid #e085a4;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  min-height: var(--nav-h);
+  padding-block: .5rem;
+}
+
+/* Texto con contraste  */
+.navbar .navbar-brand,
+.navbar .nav-link {
+  color: #bc3662 !important;
+  text-shadow: none !important;
+}
+
+/* Hover/focus/active */
+.navbar .nav-link:hover,
+.navbar .nav-link:focus-visible,
+.navbar .nav-link.active {
+  color: #d71d5c !important;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+  outline: 2px solid rgba(254, 208, 227, 0.8);
+  outline-offset: 2px;
+}
+
+/* Controles */
+.navbar .form-control { height: 38px; }
+.navbar .btn { height: 38px; display: inline-flex; align-items: center; }
+
+/* Toggler coloreado (sin navbar-dark) */
+.navbar .navbar-toggler { border-color: #bc3662; }
+.navbar .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgb(188,54,98)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Contenedor: altura fija y centrado vertical (FIX) */
+header.navbar .container{
+  min-height: var(--nav-h);
+  display: flex;
+  align-items: center;
+}
+
+
+/* ---CARRUSELES (Swiper) + CARDS---*/
+
+/* Tamaños de slide por breakpoint */
+@media (max-width: 575.98px) {
+  .products-row .swiper-slide { width: 78vw; }
+}
+@media (min-width: 576px) and (max-width: 991.98px) {
+  .products-row .swiper-slide { width: 44vw; }
+}
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .products-row .swiper-slide { width: 260px; }
+}
+@media (min-width: 1200px) {
+  .products-row .swiper-slide { width: 300px; }
+}
+
+
+/* Contenedor de carrusel */
+.carousel-row { position: relative; display: block; }
+
+/* Flechas superpuestas + accesibles */
+.carousel-row .carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  border: 1px solid #d71d5c;
+  background: #fff;
+  color: #d71d5c;
+  width: 40px; height: 40px; border-radius: 999px;
+  display: grid; place-content: center;
+  transition: box-shadow .2s ease, transform .2s ease, background-color .2s ease;
+}
+.carousel-row .carousel-btn.prev { left: .25rem; }
+.carousel-row .carousel-btn.next { right: .25rem; }
+.carousel-row .carousel-btn:hover { box-shadow: 0 3px 10px rgba(0,0,0,.12); transform: translateY(-50%) scale(1.04); }
+.carousel-row .carousel-btn:focus-visible { outline: 2px solid #fed0e3; outline-offset: 2px; }
+.carousel-row .carousel-btn[disabled],
+.carousel-row .carousel-btn[aria-disabled="true"] {
+  opacity: .45; pointer-events: none;
+}
+
+/* El track ocupa todo el ancho y no corta sombras */
+.products-row.swiper {
+  width: 100%;
+  margin: 0 !important;
+  overflow: visible;
+  height: auto !important;
+}
+
+/* Swiper: paginación debajo del carrusel (solo mobile) */
+.products-row .swiper-pagination{
+  position: static !important;
+  margin-top: .5rem;
+  pointer-events: none;
+}
+.products-row .swiper-pagination .swiper-pagination-bullet{ opacity: .4; }
+.products-row .swiper-pagination .swiper-pagination-bullet-active{ opacity: 1; }
+
+@media (min-width: 992px){
+  .products-row .swiper-pagination{ display: none !important; }
+}
+
+/* Wrapper en fila SIN gap (lo maneja Swiper con spaceBetween) */
+.products-row .swiper-wrapper {
+  display: flex;
+  align-items: stretch;
+  will-change: transform;
+}
+
+
+/* Cada slide es flex y con altura auto */
+.products-row .swiper-slide {
+  display: flex;
+  box-sizing: border-box;
+  height: auto;
+}
+
+/* Card dentro del slide */
+.products-row .swiper-slide > .card.product {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Imagen con alto uniforme para alinear cards --- */
+.card.product .img-wrap{
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;     
+  overflow: hidden;
+  border-top-left-radius: .5rem;
+  border-top-right-radius: .5rem;
+}
+.card.product .img-wrap img{
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --- Cards: compactas y sin huecos --- */
+.card.product { height: auto; }
+
+.card.product .card-body {
+  background: transparent;
+  color: #222;
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  padding: .75rem .9rem .5rem;
+}
+
+/* Fila de badges sin reservar altura extra */
+.card.product .badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem;
+  min-height: 28px; 
+}
+
+/* Título: máx. 2 líneas + alto uniforme (cross-browser) */
+.card.product .title {
+  margin: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  line-height: 1.2;
+  min-height: calc(1.2em * 2);
+  max-height: calc(1.2em * 2);
+}
+
+/* Precio pegado al bloque de texto */
+.card.product .price {
+  margin-top: .25rem;
+  color: #d71d5c;
+  text-decoration: none;
+  font-weight: 800;
+}
+
+/* Botón abajo, sin dejar huecos arriba */
+.card.product .card-footer { margin-top: auto; }
+
+
+/* ---ANIMACIONES (custom)---*/
+
+/* Fade Up suave (para textos secundarios, etc.) */
+@keyframes pb-fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeUp {
+  opacity: 0;
+  animation: pb-fadeUp .6s ease forwards;
+}
+
+/* FadeUp + ligero “wiggle” (para títulos destacados) */
+@keyframes pb-wiggle {
+  0%   { transform: translateY(0) rotate(0); }
+  30%  { transform: translateY(-1px) rotate(-0.4deg); }
+  60%  { transform: translateY(1px) rotate(0.4deg); }
+  100% { transform: translateY(0) rotate(0); }
+}
+.animate-fade-wiggle {
+  opacity: 0;
+  animation:
+    pb-fadeUp .6s ease forwards,
+    pb-wiggle .9s ease .6s 1 both;
+}
+
+/* Delays utilitarias */
+.anim-delay-03 { animation-delay: .3s !important; }
+.anim-delay-06 { animation-delay: .6s !important; }
+.anim-delay-09 { animation-delay: .9s !important; }
+
+/* Respeto por reduce-motion */
+@media (prefers-reduced-motion: reduce){
+  .animate-fadeUp,
+  .animate-fade-wiggle {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* --- Navbar: tamaño de logo y marca (fix) --- */
+.navbar .navbar-brand{
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  white-space: nowrap;
+  font-weight: 600;
+  font-size: 1rem;     
+  line-height: 1;
+}
+
+.navbar .navbar-brand img{
+  height: 36px;
+  max-height: calc(var(--nav-h) - 18px);
+  width: auto;
+}
+
+/* WOW + Animate.css v4: visibilidad y forzar animación aun con reduce-motion */
+
+
+/* Forzar animación SOLO cuando tenga la clase `anim-force` */
+@media (prefers-reduced-motion: reduce){
+  .anim-force.animate-fadeUp{
+    animation: pb-fadeUp .6s ease forwards !important;
+  }
+  .anim-force.animate-fade-wiggle{
+    animation:
+      pb-fadeUp .6s ease forwards,
+      pb-wiggle .9s ease .6s 1 both !important;
+  }
+}
+
+/* Wiggle horizontal continuo para el bloque bajo el video */
+@keyframes pb-wiggleX {
+  0%   { transform: translateX(0); }
+  30%  { transform: translateX(-3px); }
+  60%  { transform: translateX(3px); }
+  100% { transform: translateX(0); }
+}
+.animate-fade-wiggle-x-infinite {
+  opacity: 0;
+  animation:
+    pb-fadeUp .6s ease forwards,
+    pb-wiggleX 1.2s ease-in-out .6s infinite;
+}
+
+@media (prefers-reduced-motion: reduce){
+  .anim-force.animate-fade-wiggle-x-infinite{
+    animation:
+      pb-fadeUp .6s ease forwards,
+      pb-wiggleX 1.2s ease-in-out .6s infinite !important;
+  }
+}
+
+/* Mobile: imagen de producto más chica (3:4) */
+@media (max-width: 575.98px){
+  .card.product .img-wrap{
+    aspect-ratio: 3 / 4 !important; 
+    width: 92%;
+    margin: .5rem auto 0;
+  }
+  .card.product .img-wrap img{
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+/* --- Fix mobile: centrar contenido y evitar scroll horizontal --- */
+@media (max-width: 575.98px){
+  html, body{ overflow-x: hidden; }
+
+  /* Hero sin 100vw ni translate para que no cree desborde */
+  .hero-video .video-wrap{
+    width: 100% !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+
+  /* Swiper: no permitir desbordes laterales en mobile */
+  .products-row.swiper{ overflow-x: hidden !important; }
+
+  /* Seguridad extra: nada de overflow lateral en secciones/fluidos */
+}
+
+/* Mobile: achicar imagen de medios de pago */
+@media (max-width: 575.98px){
+  .pay-logos{
+    display: block;
+    margin: .5rem auto 0;       
+    width: auto;                
+    max-width: clamp(160px, 60vw, 240px); 
+    height: auto;
+  }
+}
+
+/* Tablet chica */
+@media (min-width: 576px) and (max-width: 767.98px){
+  .pay-logos{ max-width: 280px; }
+}
+
+/* Mobile: mantener imagen de producto más chica (3:4) y centrada */
+@media (max-width: 575.98px){
+  .products-row .swiper-slide{ width: 78vw; } 
+
+  .card.product .img-wrap{
+    aspect-ratio: 1 / 1 !important;
+    width: 76% !important;              
+    margin: .5rem auto 0 !important;
+  }
+  .card.product .img-wrap img{
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+  }
+}
+
+/* Mobile: asegurar que el logo siempre se vea en la navbar */
+@media (max-width: 575.98px){
+  header.navbar .container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* evita que el brand se esconda */
+    min-height: var(--nav-h);
+  }
+  .navbar .navbar-brand img{
+    display: block;
+    height: 32px !important;      /* fijo en mobile */
+    max-height: 32px !important;
+    width: auto !important;
+  }
+}
+
+/* Mobile: asegurar que se vean los títulos de la sección de info */
+   /* por si la animación no corre */
+  @media (max-width: 575.98px){
+  .wow {
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+}
+
+/* Mobile: recuperar títulos de secciones principales */
+@media (max-width: 575.98px){
+  #perfumeria  h2.section-title,
+  #cuidados    h2.section-title,
+  #maquillaje  h2.section-title,
+  #regalos     h2.section-title{
+    visibility: visible !important;
+    opacity: 1 !important;
+    animation: none !important;
+  }
+}
+
+/* Fondo glam para el modal de bienvenida */
+.welcome-modal .modal-content {
+  background: url('../img/bg-bienvenida.jpg') center/cover no-repeat;
+  color: #4a004e;
+  backdrop-filter: blur(4px);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+  position: relative;
+}
+
+/* Capa rosa semitransparente para mejor legibilidad */
+.welcome-modal .modal-content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 230, 238, 0.6);
+  z-index: 1;
+  backdrop-filter: blur(3px);
+}
+
+/* Para asegurar que el contenido se vea sobre el fondo */
+.welcome-modal .modal-header,
+.welcome-modal .modal-body,
+.welcome-modal .modal-footer {
+  position: relative;
+  z-index: 2;
+}
+
+/* Tono de marca */
+.welcome-modal .text-brand {
+  color: #bc3662;
+}
+
+/* Botón glam */
+.welcome-modal .btn-brand {
+  background-color: #d71d5c;
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.welcome-modal .btn-brand:hover {
+  background-color: #bc3662;
+  transform: scale(1.03);
+}
+
+
+/* WhatsApp flotante (igual al proyecto viejo) */
+.whatsapp-float{
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  width: 54px;
+  height: 54px;
+  border-radius: 999px;
+  background: #25D366;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  z-index: 9999;
+  box-shadow: 0 8px 18px rgba(0,0,0,.22);
+  text-decoration: none;
+}
+.whatsapp-float:hover{ filter: brightness(1.02); }
+.whatsapp-float:focus-visible{
+  outline: 3px solid rgba(254,208,227,.9);
+  outline-offset: 3px;
+}
+
+/* Título debajo del hero */
+.hero-title{
+  background: #fff;
+  padding: 28px 0;
+  text-align: center;
+}
+.hero-title h1{
+  margin: 0 0 6px;
+  font-weight: 700;
+  color: #222;
+}
+.hero-title p{
+  margin: 0;
+  color: #555;
+}
+
+/* Toast bienvenida (debajo del carrito del navbar) */
+#welcomeToast{
+  position: fixed;
+  top: 104px;
+  right: 16px;
+  z-index: 1080;
+  max-width: 360px;
+}
+
+/* Toast bienvenida (debajo del carrito del navbar) */
+#welcomeToastContainer{
+  position: fixed;
+  top: 104px;
+  right: 16px;
+  z-index: 2000;
+  max-width: 360px;
+}
+
+/* Toast de bienvenida – mejorar contraste sobre hero */
+#welcomeToast {
+  background-color: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(6px);
+}
+
+#welcomeToast .toast-body {
+  color: #4a2c3a; /* tono ciruela / beauty */
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+#welcomeToast strong {
+  color: #bc3662; /* color de marca */
+}

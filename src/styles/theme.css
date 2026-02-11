@@ -1,0 +1,597 @@
+/* Anti-overflow-x + base reset  */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  overflow-x: hidden;              
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Medios que pueden estirar contenedores si no se limitan */
+img, svg, video, canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* iframes */
+iframe { max-width: 100%; }
+
+/* Contenedores a lo ancho: evitar 100vw = overflow */
+.full-bleed,
+.navbar,
+.hero,
+.hero-video,
+.footer {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Layout base seguro */
+.section, .wrapper {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: clamp(12px, 2vw, 24px);
+}
+
+/* Swiper: evitar desbordes por wrapper/slides */
+.swiper { width: 100%; max-width: 100%; overflow: hidden; }
+.swiper-wrapper { max-width: 100%; }
+.swiper-slide { box-sizing: border-box; }
+
+/* Botones/filtros: no crecer de más en móviles */
+button, .btn, [role="button"] {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+/* Filas horizontales (logos, etc.) */
+.horizontal-scroll, .logos-row {
+  display: flex;
+  gap: .75rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ---- Tipografía fluida ----
+   $min: font-size en móviles
+   $max: font-size en desktop
+   $minw/$maxw: rangos de viewport para interpolar */
+body {
+  font-family: "Natura Sans", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: #fffeff;
+  color: #222;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Skip link */
+.visually-hidden-focusable {
+  position: absolute;
+  left: -9999px;
+}
+.visually-hidden-focusable:focus {
+  left: 0;
+  z-index: 1000;
+  outline: 3px solid rgba(188, 54, 98, 0.4);
+  outline-offset: 2px;
+}
+
+/* WOW helpers */
+/* Imagen de Medios de pago */
+.pay-logos {
+  max-width: 600px;
+}
+
+/* Foco accesible */
+:focus-visible {
+  outline: 3px solid rgba(215, 29, 92, 0.6);
+  outline-offset: 2px;
+  border-radius: 6px;
+  transition: outline-color 0.15s ease, outline-offset 0.15s ease;
+}
+
+/* ----Animaciones globales ---- */
+/* Wiggle horizontal */
+@keyframes wiggle-x {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-3px);
+  }
+  50% {
+    transform: translateX(3px);
+  }
+  75% {
+    transform: translateX(-3px);
+  }
+}
+.animate-wiggle-x {
+  animation: wiggle-x 2s ease-in-out infinite;
+}
+
+/* Pop inicial de las cards */
+@keyframes card-pop {
+  from {
+    transform: translateY(8px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+/* Fade-in hacia arriba */
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fadeUp {
+  animation: fadeUp 0.48s ease both;
+}
+
+/* Fade + Wiggle juntos */
+.animate-fade-wiggle {
+  animation: fadeUp 0.48s ease both, wiggle-x 2s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+/* Delay utilitario */
+.anim-delay-06 {
+  animation-delay: 0.06s, 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fadeUp,
+  .animate-fade-wiggle,
+  .card.product {
+    animation-duration: 0.28s !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* ---- Navbar (base; colores y fondo se definen en components.css) ---- */
+.navbar { 
+  
+  background: transparent;
+}
+
+.navbar .navbar-brand {
+  font-weight: 700;
+  color: inherit;       
+}
+
+.navbar .navbar-brand img {
+  display: block;
+}
+
+.navbar .nav-link {
+  font-weight: 600;
+  color: inherit;         
+  text-shadow: none;
+  transition: color 0.25s ease;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link:focus-visible,
+.navbar .nav-link.active {
+  /* solo estilo de énfasis; el color lo maneja components.css */
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+}
+
+
+/* Base de botón reutilizable */
+.btn-outline-brand, .btn-brand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.btn-brand {
+  background: #d71d5c;
+  color: #fff;
+}
+.btn-brand:hover {
+  background: rgb(197.8, 26.68, 84.64);
+}
+.btn-brand:focus-visible {
+  outline: 3px solid rgba(215, 29, 92, 0.4);
+  outline-offset: 2px;
+}
+
+.btn-outline-brand {
+  background: transparent;
+  color: #d71d5c;
+  border-color: #d71d5c;
+}
+.btn-outline-brand:hover {
+  background: #fed0e3;
+  color: rgb(193.5, 26.1, 82.8);
+  border-color: rgb(193.5, 26.1, 82.8);
+}
+.btn-outline-brand:focus-visible {
+  outline: 3px solid rgba(215, 29, 92, 0.4);
+  outline-offset: 2px;
+}
+
+/* Micro-interacciones en botón de marca */
+.btn-brand {
+  transition: transform 0.18s ease, filter 0.18s ease, box-shadow 0.18s ease;
+  will-change: transform;
+}
+.btn-brand:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+.btn-brand:active {
+  transform: translateY(0);
+  filter: brightness(0.95);
+  box-shadow: none;
+}
+
+/* ---- Hero ---- */
+.hero-video {
+  background: linear-gradient(180deg, #fed0e3, transparent 35%);
+  position: relative;
+}
+.hero-video .video-wrap {
+  width: 100%;
+  aspect-ratio: 1.7777777778;
+  position: relative;
+  overflow: hidden;
+}
+.hero-video .video-wrap > * {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hero-video .video-wrap {
+  position: relative;
+}
+.hero-video .video-wrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.25s ease;
+}
+.hero-video .video-wrap.overlay-on::after {
+  background: rgba(0, 0, 0, 0.22);
+}
+.hero-video .video-wrap.overlay-strong::after {
+  background: rgba(0, 0, 0, 0.36);
+}
+
+/* ---Bridge a Swiper ---- */
+/* contenedor y flechas */
+.carousel-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.5rem;
+  align-items: center;
+}
+.carousel-row .carousel-btn {
+  border: 1px solid #d71d5c;
+  background: #fff;
+  color: #d71d5c;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  display: grid;
+  place-content: center;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+.carousel-row .carousel-btn:focus-visible {
+  outline: 3px solid rgba(254, 208, 227, 0.35);
+  outline-offset: 2px;
+}
+.carousel-row .carousel-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.carousel-row .carousel-btn:active {
+  transform: scale(0.96);
+}
+
+/* El track será .products-row.swiper con .swiper-wrapper dentro */
+.products-row {
+  /* APAGAMOS el modo scroll-snap manual */
+  overflow: visible;
+  scroll-snap-type: none;
+  overscroll-behavior-x: auto;
+  padding: 0;
+  /* Layout Swiper */
+}
+.products-row.swiper {
+  width: 100%;
+}
+
+.products-row .swiper-wrapper {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Cada tarjeta  es .swiper-slide  */
+.products-row .swiper-slide {
+  width: auto;
+}
+
+/* ----Cards de producto ----*/
+.card.product {
+  scroll-snap-align: start;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  overflow: hidden;
+  /* base + transición única */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  will-change: transform, box-shadow;
+  /* animación de entrada */
+  animation: card-pop 0.35s ease both;
+}
+.card.product .img-wrap {
+  width: 100%;
+  background: #fff;
+  aspect-ratio: 0.75;
+  position: relative;
+  overflow: hidden;
+}
+.card.product .img-wrap > * {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.card.product .img-wrap {
+  position: relative;
+  overflow: hidden;
+}
+.card.product .img-wrap img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.25s ease;
+}
+.card.product .card-body {
+  padding: 0.75rem 0.9rem;
+  background: transparent;
+  color: inherit;
+}
+.card.product .title {
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+/* Precio  */
+.card.product .price {
+  color: #fed0e3;
+  font-weight: 900;
+  font-size: 1.15rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+}
+
+/* Hover + Focus (teclado) */
+.card.product:hover, .card.product:focus-within {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
+.card.product:hover .title, .card.product:focus-within .title {
+  text-decoration: underline;
+}
+.card.product:hover .img-wrap img, .card.product:focus-within .img-wrap img {
+  transform: scale(1.03);
+}
+
+.badge-aroma, .badge-subcat {
+  padding: 0.25rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  border: 1px solid transparent;
+  display: inline-block;
+}
+
+.badge-subcat {
+  background: #fed0e3;
+  color: #bc3662;
+  border-color: #e085a4;
+}
+
+.badge-aroma {
+  background: #fff;
+  color: #d71d5c;
+  border-color: #d71d5c;
+}
+
+.info-section {
+  background: #fed0e3;
+}
+.info-section .section-title {
+  color: #bc3662;
+}
+.info-section h5 {
+  color: #d71d5c;
+  font-weight: 700;
+}
+.info-section .pay-logos {
+  display: inline-block;
+}
+
+.whatsapp-float {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #25D366;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+  z-index: 1100;
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+.whatsapp-float:hover {
+  background: #1ebe5d;
+}
+.whatsapp-float:focus-visible {
+  outline: 3px solid rgba(37, 211, 102, 0.4);
+  outline-offset: 2px;
+}
+
+/* ---- Cursor en elementos interactivos ----*/
+.carousel-row .carousel-btn { cursor: pointer; }
+.card.product .btn { cursor: pointer; }
+#aromaMenu .dropdown-toggle,
+#aromaMenu .dropdown-item,
+#perfumeria [data-subcat] { cursor: pointer; }
+.navbar .nav-link { cursor: pointer; }
+
+/* ---- Títulos fluidos ---- */
+h1, .h1 {
+  font-size: clamp(1.75rem, 1.75rem + (2.5rem - 1.75rem) * (100vw - 320px) / (1200px - 320px), 2.5rem);
+  line-height: 1.1;
+}
+h2, .h2, .section-title {
+  font-size: clamp(1.25rem, 1.25rem + (1.75rem - 1.25rem) * (100vw - 320px) / (1200px - 320px), 1.75rem);
+  line-height: 1.15;
+}
+/* Títulos de cards */
+.card.product .title {
+  font-size: clamp(1rem, 1rem + (1.1rem - 1rem) * (100vw - 320px) / (1200px - 320px), 1.1rem);
+}
+
+
+
+/* Botón flotante del carrito */
+.cart-float {
+  position: fixed;
+  right: 18px;
+  bottom: 88px; /* un poco arriba del WhatsApp */
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #000;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+  z-index: 1090;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.cart-float:hover {
+  background: #333;
+}
+.cart-float:focus-visible {
+  outline: 3px solid rgba(0, 0, 0, 0.3);
+  outline-offset: 2px;
+}
+
+/* Contador flotante */
+#floatingCartCount {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: #fed0e3;
+  color: #000;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border-radius: 999px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Fondo glam suave sin imagen */
+.welcome-modal::before{
+  content:"";
+  position:fixed; inset:0;
+  background:linear-gradient(135deg, rgba(254,208,227,.85), rgba(255,255,255,.92));
+  backdrop-filter:blur(8px);
+  z-index:-1;
+}
+.welcome-modal .modal-content{border-radius:20px}
+.welcome-modal .modal-header{padding:1rem 1rem .25rem}
+.welcome-modal .modal-body{padding:1rem}
+.welcome-modal .modal-footer{padding:0 1rem 1rem}
+.welcome-modal .form-control.is-invalid{
+  border-color:#d71d5c;box-shadow:0 0 0 .2rem rgba(215,29,92,.15)
+}
+/* Bienvenida */
+.welcome-modal .modal-dialog { max-width: 560px; }
+.welcome-modal .modal-content { border-radius: 20px; }
+.welcome-modal .modal-body p { line-height: 1.55; }
+#welcomeTitle {
+  text-align: center;
+  font-weight: 600;
+  color: #bc3662;
+  font-family: 'Montserrat', sans-serif;
+}
+
+#welcomeTitle strong {
+  color: #d71d5c;
+}
+/* --- Toast Pura Belleza --- */
+.toast.text-white {
+  background: linear-gradient(135deg, #d71d5c, #bc3662);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  font-family: 'Lato', sans-serif;
+  letter-spacing: 0.3px;
+}
+
+.toast .toast-body {
+  color: #fff;
+}
+
+.toast .btn-close-white {
+  filter: brightness(0) invert(1);
+}
+
+/* === PATCH SCROLL (React) === */
+html, body { height: auto !important; min-height: 100% !important; }
+body { overflow-y: auto !important; }
+#root { min-height: 100vh !important; }

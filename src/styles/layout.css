@@ -1,0 +1,111 @@
+/* layout.css — grids + flex + box-modeling + MQ base */
+:root{
+  /* breakpoints estándar (referencia) */
+  --bp-xl: 1200px;
+  --bp-lg: 992px;
+  --bp-md: 768px;
+  --bp-sm: 576px;
+}
+
+/* Helpers de layout */
+.grid { display: grid; gap: 1rem; }
+.flex { display: flex; gap: 1rem; align-items: center; }
+
+/* Contenedores/secciones */
+.section { padding-block: clamp(16px, 4vw, 48px); }
+
+/* Media Queries generales (no de componentes) */
+@media (max-width: 1199.98px) { 
+  .container { max-width: 100%; }
+}
+@media (max-width: 991.98px) {  
+  .grid.cols-4 { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 767.98px) {  
+  .grid.cols-3, .grid.cols-4 { grid-template-columns: repeat(2, 1fr); }
+  .flex.wrap { flex-wrap: wrap; }
+}
+@media (max-width: 575.98px) {  
+  .grid.cols-2, .grid.cols-3, .grid.cols-4 { grid-template-columns: 1fr; }
+  .section { padding-block: clamp(12px, 4vw, 24px); }
+}
+
+/* --- HERO VIDEO  --- */
+
+/* Asegurar contenedor sin paddings extra */
+.hero-video .container-fluid{ padding: 0 !important; }
+
+/* Contenedor del video con alto fijo baseline 500px en desktop */
+.hero-video .video-wrap{
+  position: relative;
+  width: 100%;
+  height: 500px;          
+  overflow: hidden;
+}
+
+/* Video centrado y recortado al contenedor */
+.hero-video .video-wrap video{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  object-position: center;   
+  z-index: 0; 
+}
+
+/*  Overlay (activar con .overlay-on en .video-wrap) */
+.hero-video .video-wrap.overlay-on::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,.18), rgba(0,0,0,.25));
+  z-index: 1;
+}
+
+/* Contenido por encima del video/overlay */
+.hero-video .hero-content{
+  position: relative;
+  z-index: 2;
+}
+
+/* --- Breakpoints Bootstrap  --- */
+
+/* XS <576px */
+@media (max-width: 575.98px){
+  .hero-video .video-wrap{ height: clamp(280px, 42vh, 360px); }
+}
+
+/* SM 576–767 */
+@media (min-width: 576px) and (max-width: 767.98px){
+  .hero-video .video-wrap{ height: clamp(320px, 40vh, 420px); }
+}
+
+/* MD 768–991 */
+@media (min-width: 768px) and (max-width: 991.98px){
+  .hero-video .video-wrap{ height: clamp(380px, 38vh, 460px); }
+}
+
+/* LG 992–1199 */
+@media (min-width: 992px) and (max-width: 1199.98px){
+  .hero-video .video-wrap{ height: 480px; }
+}
+
+/* XL 1200–1399 */
+@media (min-width: 1200px) and (max-width: 1399.98px){
+  .hero-video .video-wrap{ height: 500px; } 
+}
+
+/* XXL >=1400 */
+@media (min-width: 1400px){
+  .hero-video .video-wrap{ height: 500px; } 
+}
+
+/* Accesibilidad */
+@media (prefers-reduced-motion: reduce){
+  .hero-video .video-wrap video{ animation: none; }
+}

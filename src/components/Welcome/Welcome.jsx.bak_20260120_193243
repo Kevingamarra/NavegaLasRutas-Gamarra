@@ -1,0 +1,123 @@
+import { useEffect, useRef, useState } from "react";
+
+export default function Welcome() {
+  const [name, setName] = useState("");
+  const modalRef = useRef(null);
+  const toastRef = useRef(null);
+
+  useEffect(() => {
+    const savedName = (localStorage.getItem("nombreUsuario") || "").trim();
+    const seen =
+      sessionStorage.getItem("pb_welcome_seen") ||
+      sessionStorage.getItem("pb_welcome_done");
+
+    if (seen) return;
+
+    if (savedName) {
+      sessionStorage.setItem("pb_welcome_seen", "1");
+      sessionStorage.setItem("pb_welcome_done", "1");
+      showToast(`Gracias por visitarnos, ${savedName}. ¡Explorá nuestros productos y encontrá tu próxima fragancia favorita!`);
+      return;
+    }
+
+    if (!window.bootstrap) return;
+
+    const modalEl = modalRef.current;
+    if (!modalEl) return;
+
+    const modal = window.bootstrap.Modal.getOrCreateInstance(modalEl, {
+      backdrop: "static",
+      keyboard: false,
+    });
+    modal.show();
+  }, []);
+
+  function showToast(text) {
+    const toastEl = toastRef.current;
+    const msgEl = toastEl?.querySelector("#welcomeToastMsg");
+    if (msgEl) msgEl.textContent = text;
+
+    if (toastEl && window.bootstrap) {
+      const toast = window.bootstrap.Toast.getOrCreateInstance(toastEl, { delay: 3500 });
+      toast.show();
+    }
+  }
+
+  function onStart() {
+    const nombre = (name || "").trim();
+    if (!nombre) return;
+
+    localStorage.setItem("nombreUsuario", nombre);
+    sessionStorage.setItem("pb_welcome_seen", "1");
+    sessionStorage.setItem("pb_welcome_done", "1");
+
+    if (window.bootstrap && modalRef.current) {
+      const modal = window.bootstrap.Modal.getOrCreateInstance(modalRef.current);
+      modal.hide();
+    }
+
+    showToast(`Gracias por visitarnos, ${nombre}. ¡Explorá nuestros productos y encontrá tu próxima fragancia favorita!`);
+  }
+
+  return (
+    <>
+      <div className="toast-container position-fixed bottom-0 end-0 p-3" style={{ zIndex: 2000 }}>
+        <div
+          ref={toastRef}
+          id="welcomeToast"
+          className="toast align-items-center text-bg-light border-0 shadow"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          <div className="d-flex">
+            <div className="toast-body" id="welcomeToastMsg"></div>
+            <button type="button" className="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar" />
+          </div>
+        </div>
+      </div>
+
+      <div
+        ref={modalRef}
+        className="modal fade"
+        id="welcomeModal"
+        tabIndex="-1"
+        aria-labelledby="welcomeTitle"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered welcome-modal">
+          <div className="modal-content border-0 shadow-lg">
+            <div className="modal-body p-4 text-center">
+              <img src="/img/logo.png" alt="Pura Belleza" width="64" height="64" style={{ objectFit: "contain" }} />
+              <h5 className="mt-3 mb-1" id="welcomeTitle">¡Bienvenidos a Pura Belleza!</h5>
+              <p className="text-muted mb-3">Un universo de cosmética, fragancias y bienestar te espera.</p>
+
+              <div className="text-start">
+                <label className="form-label small mb-1" htmlFor="welcomeName">Tu nombre</label>
+                <input
+                  id="welcomeName"
+                  className="form-control"
+                  placeholder="Ingresá tu nombre"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+
+              <button type="button" className="btn btn-brand w-100 mt-3" id="welcomeStart" onClick={onStart}>
+                Comenzar
+              </button>
+              <button
+                type="button"
+                className="btn btn-outline-secondary w-100 mt-2"
+                data-bs-dismiss="modal"
+                onClick={() => sessionStorage.setItem("pb_welcome_seen", "1")}
+              >
+                Ahora no
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
