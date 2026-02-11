@@ -69,8 +69,8 @@ export default function App() {
       <Navbar cartCount={totalItems} query={q} onQueryChange={setQ} />
 
       <Routes>
-        <Route path="/" element={<ItemListContainer greeting="Bienvenido a NavegaLasRutas" />} />
-        <Route path="/category/:categoryId" element={<ItemListContainer greeting="Bienvenido a NavegaLasRutas" />} />
+        <Route path="/" element={<ItemListContainer greeting="🌸 Descubrí tu universo de belleza ✨" />} />
+        <Route path="/category/:categoryId" element={<ItemListContainer greeting="🌸 Descubrí tu universo de belleza ✨" />} />
         <Route path="/item/:itemId" element={<ItemDetailContainer />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
