@@ -137,7 +137,7 @@ export default function Welcome() {
         <div className="modal-dialog modal-dialog-centered welcome-modal">
           <div className="modal-content border-0 shadow-lg">
             <div className="modal-body p-4 text-center">
-              <img src="/img/logo.png" alt="Pura Belleza" width="64" height="64" style={{ objectFit: "contain" }} />
+              <img src={`${import.meta.env.BASE_URL}assets/img/logo.png`} alt="Pura Belleza" width="64" height="64" style={{ objectFit: "contain" }} />
               <h5 className="mt-3 mb-1" id="welcomeTitle">¡Bienvenidos a Pura Belleza!</h5>
               <p className="text-muted mb-3">Un universo de cosmética, fragancias y bienestar te espera.</p>
 
